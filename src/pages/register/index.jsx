@@ -8,8 +8,8 @@ const RegisterPage = () => {
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
-        const { fullName, email, password, phone } = values;
         setIsLoading(true);
+        const { fullName, email, password, phone } = values;
         let res = await postRegister(fullName, email, password, phone);
         if (res?.data?._id) {
             message.success('Register success');
@@ -20,7 +20,7 @@ const RegisterPage = () => {
             notification.error({
                 message: "Something error",
                 description:
-                    res.message && res.message.length > 0 ? res.message[0] : res.message,
+                    res.message && Array.isArray(res.message) > 0 ? res.message[0] : res.message,
                 duration: 5
             });
             setIsLoading(false);
@@ -73,12 +73,12 @@ const RegisterPage = () => {
                     <Input />
                 </Form.Item>
 
-                <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
+                <Form.Item wrapperCol={{ span: 24 }}>
                     <Button type="primary" htmlType="submit"
                         loading={isLoading}
                     >
                         Submit
-                    </Button>
+                    </Button> <span onClick={() => navigate('/login')}>Đăng nhập</span>
                 </Form.Item>
             </Form>
         </div>

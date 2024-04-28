@@ -21,8 +21,12 @@ const fetchListUser = (query) => {
     return axios.get(`user?${query}`);
 }
 
+const postCreateUser = (fullName, email, password, phone) => {
+    return axios.post('user', { fullName, email, password, phone });
+}
+
 export {
     postRegister, postLogin,
     fetchAccount, callLogout,
-    fetchListUser
+    fetchListUser, postCreateUser
 }

@@ -18,6 +18,7 @@ import NotFound from './components/NotFound';
 import AdminPage from './pages/admin';
 import ProtectedAdmin from './ProtectedPdge/admin';
 import LayoutAdmin from './components/Admin/LayoutAdmin';
+import UserTable from './components/Admin/User/UserTable';
 
 const Layout = () => {
   return (
@@ -68,6 +69,10 @@ export default function App() {
               <AdminPage />
             </ProtectedAdmin>
         },
+        {
+          path: "user",
+          element: <UserTable />,
+        },
       ],
     },
 
@@ -89,7 +94,6 @@ export default function App() {
       {isAuthenticated === true
         || window.location.pathname === '/login'
         || window.location.pathname === '/register'
-        || window.location.pathname === '/'
         ?
         <RouterProvider router={router} />
         :

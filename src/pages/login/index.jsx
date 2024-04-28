@@ -19,7 +19,9 @@ const LoginPage = () => {
             localStorage.setItem('access_token', res.data.access_token);
             dispatch(doLoginAction(res.data));
             message.success('Login success');
-            navigate('/');
+            if (res.data.user.role === "ADMIN")
+                navigate('/admin');
+            else navigate('/');
         }
         else {
             notification.error({

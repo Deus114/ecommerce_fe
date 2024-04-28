@@ -17,7 +17,12 @@ const callLogout = () => {
     return axios.post('auth/logout')
 }
 
+const fetchListUser = (query) => {
+    return axios.get(`user?${query}`);
+}
+
 export {
     postRegister, postLogin,
-    fetchAccount, callLogout
+    fetchAccount, callLogout,
+    fetchListUser
 }

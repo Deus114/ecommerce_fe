@@ -17,7 +17,7 @@ const LoginPage = () => {
         setIsLoading(false);
         if (res?.data?.user) {
             localStorage.setItem('access_token', res.data.access_token);
-            dispatch(doLoginAction(res.data.user));
+            dispatch(doLoginAction(res.data));
             message.success('Login success');
             navigate('/');
         }
@@ -64,13 +64,13 @@ const LoginPage = () => {
                     <Button type="primary" htmlType="submit"
                         loading={isLoading}
                     >
-                        Submit
+                        Đăng nhập
                     </Button>
                 </Form.Item>
             </Form>
             <h3 style={{ textAlign: 'center' }}>Hoặc</h3>
             <Divider />
-            <span style={{ textAlign: 'center' }}>Bạn chưa có tài khoản? <span
+            <span>Bạn chưa có tài khoản? <span className='navigate'
                 onClick={() => { navigate('/register') }}
             >Đăng kí</span></span>
         </div>

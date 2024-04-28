@@ -7,4 +7,13 @@
     margin-top: 2%;
     margin-bottom: 5%;
     background-color: white;
+
+    .navigate {
+        color: blue;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 0.6;
+        }
+    }
 }

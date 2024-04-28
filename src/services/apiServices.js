@@ -13,7 +13,11 @@ const fetchAccount = () => {
     return axios.get('auth/account');
 }
 
+const callLogout = () => {
+    return axios.post('auth/logout')
+}
+
 export {
     postRegister, postLogin,
-    fetchAccount,
+    fetchAccount, callLogout
 }

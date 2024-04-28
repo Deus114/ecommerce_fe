@@ -73,12 +73,12 @@ const RegisterPage = () => {
                     <Input />
                 </Form.Item>
 
-                <Form.Item wrapperCol={{ span: 24 }}>
+                <Form.Item wrapperCol={{ offset: 8, span: 24 }}>
                     <Button type="primary" htmlType="submit"
                         loading={isLoading}
                     >
-                        Submit
-                    </Button> <span onClick={() => navigate('/login')}>Đăng nhập</span>
+                        Đăng kí
+                    </Button> <span className='navigate' onClick={() => navigate('/login')}>Đăng nhập</span>
                 </Form.Item>
             </Form>
         </div>

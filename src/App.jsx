@@ -16,14 +16,16 @@ import { doLoginAction } from './redux/account/accountSlice';
 import Loading from './components/Loading';
 import NotFound from './components/NotFound';
 import AdminPage from './pages/admin';
+import ProtectedAdmin from './ProtectedPdge/admin';
+import LayoutAdmin from './components/Admin/LayoutAdmin';
 
 const Layout = () => {
   return (
-    <>
+    <div className='layout-app'>
       <Header />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 }
 
@@ -32,9 +34,12 @@ export default function App() {
   const isAuthenticated = useSelector(state => state.account.isAuthenticated);
 
   const getAccount = async () => {
-    if (window.location.pathname === '/login') return;
-    let res = await fetchAccount();
-    if (res && res.data) dispatch(doLoginAction(res.data.user));
+    if (window.location.pathname === '/login'
+      || window.location.pathname === '/register'
+    )
+      return;
+    const res = await fetchAccount();
+    if (res && res.data) dispatch(doLoginAction(res.data));
   }
 
   useEffect(() => {
@@ -53,10 +58,16 @@ export default function App() {
 
     {
       path: "/admin",
-      element: <Layout />,
+      element: <LayoutAdmin />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <AdminPage /> },
+        {
+          index: true,
+          element:
+            <ProtectedAdmin>
+              <AdminPage />
+            </ProtectedAdmin>
+        },
       ],
     },
 
@@ -75,7 +86,11 @@ export default function App() {
 
   return (
     <>
-      {isAuthenticated === true || window.location.pathname === '/login' ?
+      {isAuthenticated === true
+        || window.location.pathname === '/login'
+        || window.location.pathname === '/register'
+        || window.location.pathname === '/'
+        ?
         <RouterProvider router={router} />
         :
         <Loading />

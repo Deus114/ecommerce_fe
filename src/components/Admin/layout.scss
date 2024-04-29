@@ -8,6 +8,10 @@
         align-items: center;
         justify-content: space-between;
         padding: 0 15px;
+
+        .menu {
+            cursor: pointer;
+        }
     }
 
     .ant-layout-content {

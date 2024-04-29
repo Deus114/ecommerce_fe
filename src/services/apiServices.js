@@ -25,8 +25,17 @@ const postCreateUser = (fullName, email, password, phone) => {
     return axios.post('user', { fullName, email, password, phone });
 }
 
+const UpdateUser = (_id, fullName, phone) => {
+    return axios.put('user', { _id, fullName, phone });
+}
+
+const DelteUser = (_id) => {
+    return axios.delete(`user/${_id}`);
+}
+
 export {
     postRegister, postLogin,
     fetchAccount, callLogout,
-    fetchListUser, postCreateUser
+    fetchListUser, postCreateUser,
+    UpdateUser, DelteUser
 }

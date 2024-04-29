@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Form, Divider, message, Input, notification } from 'antd';
-import { postCreateUser } from '../../../services/apiServices';
+import { UpdateUser } from '../../../services/apiServices';
 
-const ModalCreateUser = (props) => {
-    const { openModal, setOpenModal } = props;
+const ModalUpdateUser = (props) => {
+    const { openModalUpdate, setOpenModalUpdate, dataUpdate } = props;
     const [isSubmit, setIsSubmit] = useState(false)
 
     const [form] = Form.useForm();
 
     const onFinish = async (values) => {
         setIsSubmit(true);
-        const { fullName, email, password, phone } = values;
-        let res = await postCreateUser(fullName, email, password, phone);
+        const { _id, fullName, phone } = values;
+        let res = await UpdateUser(_id, fullName, phone);
         if (res && res.data) {
-            message.success('Create user success');
+            message.success('Update user success');
             form.resetFields();
-            setOpenModal(false);
             await props.fetchUser();
             setIsSubmit(false);
+            setOpenModalUpdate(false);
         }
         else {
             notification.error({
@@ -28,14 +28,19 @@ const ModalCreateUser = (props) => {
         }
     };
 
+    useEffect(() => {
+        form.setFieldsValue(dataUpdate);
+    }, [dataUpdate])
+
+
     return (
         <>
             <Modal
-                title="Thêm mới người dùng"
-                open={openModal}
+                title="Cập nhật người dùng"
+                open={openModalUpdate}
                 onOk={() => form.submit()}
-                onCancel={() => setOpenModal(false)}
-                okText={"Tạo mới"}
+                onCancel={() => setOpenModalUpdate(false)}
+                okText={"Cập nhật"}
                 cancelText={"Hủy"}
                 confirmLoading={isSubmit}
             >
@@ -56,28 +61,28 @@ const ModalCreateUser = (props) => {
                         <Input />
                     </Form.Item>
                     <Form.Item
+
                         labelCol={{ span: '24' }}
                         label="Email"
                         name="email"
                         rules={[{ required: true, message: 'Please input your email!' }]}
                     >
+                        <Input disabled />
+                    </Form.Item>
+
+                    <Form.Item
+                        labelCol={{ span: '24' }}
+                        label="Số điện thoại"
+                        name="phone"
+                    >
                         <Input />
                     </Form.Item>
 
                     <Form.Item
+                        hidden
                         labelCol={{ span: '24' }}
-                        label="Password"
-                        name="password"
-                        rules={[{ required: true, message: 'Please input your password!' }]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
-
-                    <Form.Item
-                        labelCol={{ span: '24' }}
-                        label="Phone Number"
-                        name="phone"
-                        rules={[{ required: true, message: 'Please input your phone number!' }]}
+                        label="ID"
+                        name="_id"
                     >
                         <Input />
                     </Form.Item>
@@ -87,4 +92,4 @@ const ModalCreateUser = (props) => {
     );
 };
 
-export default ModalCreateUser;
+export default ModalUpdateUser;

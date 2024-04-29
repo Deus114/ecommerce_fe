@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Row, Col, Button, Drawer, Descriptions, Badge } from 'antd';
+import { Table, Row, Col, Button, Drawer, Descriptions, Badge, Popconfirm, notification, message } from 'antd';
 import InputSearch from './InputSearch';
-import { fetchListUser } from '../../../services/apiServices';
+import { DelteUser, fetchListUser } from '../../../services/apiServices';
 import { FaRegTrashAlt } from "react-icons/fa";
 import { render } from 'react-dom';
 import moment from 'moment';
 import { IoReload } from "react-icons/io5";
 import { ExportOutlined, PlusOutlined } from '@ant-design/icons';
 import ModalCreateUser from './ModalCreateUser';
+import * as XLSX from 'xlsx/xlsx.mjs';
+import { AiTwotoneEdit } from 'react-icons/ai';
+import ModalUpdateUser from './ModalUpdateUser';
 
 const UserTable = () => {
     const [listUser, setListUser] = useState([]);
@@ -18,6 +21,8 @@ const UserTable = () => {
     const [open, setOpen] = useState(false);
     const [dataDetail, setDataDetail] = useState({});
     const [openModal, setOpenModal] = useState(false);
+    const [openModalUpdate, setOpenModalUpdate] = useState(false);
+    const [dataUpdate, setDataUpdate] = useState({});
 
     useEffect(() => {
         fetchUser()
@@ -38,6 +43,20 @@ const UserTable = () => {
 
     const handleSearch = (query) => {
         fetchUser(query);
+    }
+
+    const handleDelete = async (_id) => {
+        let res = await DelteUser(_id);
+        if (res && res.data) {
+            message.success('Delete user success');
+            await fetchUser();
+        }
+        else {
+            notification.error({
+                message: "Something error",
+                description: "Can't delete this user",
+            });
+        }
     }
 
     const columns = [
@@ -75,7 +94,25 @@ const UserTable = () => {
             title: 'Action',
             render: (text, record, index) => {
                 return (
-                    <><Button danger><FaRegTrashAlt /></Button></>
+                    <>
+                        <Popconfirm
+                            placement="rightTop"
+                            title={"Xác nhận xóa user"}
+                            description={"Bạn có chắc muốn xóa user này không?"}
+                            onConfirm={() => handleDelete(record._id)}
+                            okText="Yes"
+                            cancelText="No"
+                        >
+                            <Button danger><FaRegTrashAlt /></Button>
+                        </Popconfirm>
+
+                        <Button
+                            onClick={() => {
+                                setDataUpdate(record);
+                                setOpenModalUpdate(true);
+                            }}
+                        ><AiTwotoneEdit /></Button>
+                    </>
                 )
             }
         },
@@ -95,6 +132,15 @@ const UserTable = () => {
         }
     };
 
+    const handleExport = () => {
+        if (listUser.length > 0) {
+            const worksheet = XLSX.utils.json_to_sheet(listUser);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, "ExportUser.csv");
+        }
+    }
+
     const renderHeader = () => {
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -102,13 +148,12 @@ const UserTable = () => {
                 <span style={{ display: 'flex', gap: 15 }}>
                     <Button
                         type='primary'
-                        icon={<ExportOutlined />}
+                        onClick={() => handleExport()}
                     >Export</Button>
                     <Button
                         type='primary'
-                        icon={<PlusOutlined />}
                         onClick={() => setOpenModal(true)}
-                    >Thêm mới</Button>
+                    >Add new</Button>
                     <Button
                         onClick={() => {
                             fetchUser();
@@ -124,6 +169,12 @@ const UserTable = () => {
 
     return (
         <>
+            <ModalUpdateUser
+                openModalUpdate={openModalUpdate}
+                setOpenModalUpdate={setOpenModalUpdate}
+                fetchUser={fetchUser}
+                dataUpdate={dataUpdate}
+            />
             <ModalCreateUser
                 openModal={openModal}
                 setOpenModal={setOpenModal}

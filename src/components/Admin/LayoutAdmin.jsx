@@ -124,7 +124,7 @@ const LayoutAdmin = () => {
                             onClick: () => setCollapsed(!collapsed),
                         })}
                     </span>
-                    <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
+                    <Dropdown className='menu' menu={{ items: itemsDropdown }} trigger={['click']}>
                         <Space>
                             <Avatar src={urlAvatar} />
                             {user?.fullName}

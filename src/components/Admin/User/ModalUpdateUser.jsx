@@ -32,10 +32,10 @@ const ModalUpdateUser = (props) => {
         form.setFieldsValue(dataUpdate);
     }, [dataUpdate])
 
-
     return (
         <>
             <Modal
+                forceRender
                 title="Cập nhật người dùng"
                 open={openModalUpdate}
                 onOk={() => form.submit()}

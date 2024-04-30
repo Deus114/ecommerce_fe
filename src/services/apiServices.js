@@ -33,9 +33,15 @@ const DelteUser = (_id) => {
     return axios.delete(`user/${_id}`);
 }
 
+// Book api
+const fetchListBook = (query) => {
+    return axios.get(`book?${query}`);
+}
+
 export {
     postRegister, postLogin,
     fetchAccount, callLogout,
     fetchListUser, postCreateUser,
-    UpdateUser, DelteUser
+    UpdateUser, DelteUser,
+    fetchListBook
 }

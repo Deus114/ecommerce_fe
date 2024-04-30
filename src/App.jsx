@@ -19,6 +19,7 @@ import AdminPage from './pages/admin';
 import ProtectedAdmin from './ProtectedPdge/admin';
 import LayoutAdmin from './components/Admin/LayoutAdmin';
 import UserTable from './components/Admin/User/UserTable';
+import BookTable from './components/Admin/Book/BookTable';
 
 const Layout = () => {
   return (
@@ -72,6 +73,10 @@ export default function App() {
         {
           path: "user",
           element: <UserTable />,
+        },
+        {
+          path: "book",
+          element: <BookTable />,
         },
       ],
     },

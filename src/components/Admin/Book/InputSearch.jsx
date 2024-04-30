@@ -14,12 +14,12 @@ const AdvancedSearchForm = (props) => {
 
     const onFinish = (values) => {
         let query = "";
-        if (values.fullName)
-            query += `&fullName=/${values.fullName}/i`;
-        if (values.email)
-            query += `&email=/${values.email}/i`;
-        if (values.phone)
-            query += `&phone=/${values.phone}/i`;
+        if (values.mainText)
+            query += `&mainText=/${values.mainText}/i`;
+        if (values.category)
+            query += `&category=/${values.category}/i`;
+        if (values.author)
+            query += `&author=/${values.author}/i`;
         if (query)
             props.handleSearch(query);
     };
@@ -30,8 +30,8 @@ const AdvancedSearchForm = (props) => {
                 <Col span={8}>
                     <Form.Item
                         labelCol={{ span: 24 }} //whole column
-                        name={`fullName`}
-                        label={`Tên người dùng`}
+                        name={`mainText`}
+                        label={`Tên sách`}
                     >
                         <Input placeholder="" />
                     </Form.Item>
@@ -39,8 +39,8 @@ const AdvancedSearchForm = (props) => {
                 <Col span={8}>
                     <Form.Item
                         labelCol={{ span: 24 }} //whole column
-                        name={`email`}
-                        label={`Email`}
+                        name={`category`}
+                        label={`Thể loại`}
                     >
                         <Input placeholder="" />
                     </Form.Item>
@@ -49,8 +49,8 @@ const AdvancedSearchForm = (props) => {
                 <Col span={8}>
                     <Form.Item
                         labelCol={{ span: 24 }} //whole column
-                        name={`phone`}
-                        label={`Số điện thoại`}
+                        name={`author`}
+                        label={`Tác giả`}
                     >
                         <Input placeholder="" />
                     </Form.Item>
@@ -69,14 +69,6 @@ const AdvancedSearchForm = (props) => {
                     >
                         Clear
                     </Button>
-                    {/* <a
-                        style={{ fontSize: 12 }}
-                        onClick={() => {
-                            setExpand(!expand);
-                        }}
-                    >
-                        {expand ? <UpOutlined /> : <DownOutlined />} Collapse
-                    </a> */}
                 </Col>
             </Row>
         </Form>

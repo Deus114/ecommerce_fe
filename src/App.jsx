@@ -20,6 +20,7 @@ import ProtectedAdmin from './ProtectedPdge/admin';
 import LayoutAdmin from './components/Admin/LayoutAdmin';
 import UserTable from './components/Admin/User/UserTable';
 import BookTable from './components/Admin/Book/BookTable';
+import BookPage from './pages/bookdetail';
 
 const Layout = () => {
   return (
@@ -55,20 +56,24 @@ export default function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Home /> },
+        {
+          path: "book/:slug",
+          element: <BookPage />,
+        },
       ],
     },
 
     {
       path: "/admin",
-      element: <LayoutAdmin />,
+      element:
+        <ProtectedAdmin>
+          <LayoutAdmin />
+        </ProtectedAdmin>,
       errorElement: <NotFound />,
       children: [
         {
           index: true,
-          element:
-            <ProtectedAdmin>
-              <AdminPage />
-            </ProtectedAdmin>
+          element: <AdminPage />,
         },
         {
           path: "user",

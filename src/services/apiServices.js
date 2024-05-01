@@ -70,6 +70,10 @@ const DelteBook = (_id) => {
     return axios.delete(`book/${_id}`);
 }
 
+const getBookId = (id) => {
+    return axios.get(`book/${id}`);
+}
+
 export {
     postRegister, postLogin,
     fetchAccount, callLogout,
@@ -77,5 +81,6 @@ export {
     UpdateUser, DelteUser,
     fetchListBook, callFetchCategory,
     callUploadBookImg, createBook,
-    updateBook, DelteBook
+    updateBook, DelteBook,
+    getBookId
 }

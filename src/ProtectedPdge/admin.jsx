@@ -14,6 +14,7 @@ const RoleBaseRoute = (props) => {
 
 const ProtectedAdmin = (props) => {
     const isAuthenticated = useSelector(state => state.account.isAuthenticated);
+    console.log(isAuthenticated)
 
     return (
         <>

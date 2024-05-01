@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Row, Col, Button, Drawer, Descriptions, Badge, Popconfirm, notification, message, Divider, Upload, Modal } from 'antd';
 import InputSearch from './InputSearch';
-import { fetchListBook } from '../../../services/apiServices';
+import { DelteBook, fetchListBook } from '../../../services/apiServices';
 import { FaRegTrashAlt } from "react-icons/fa";
 import { render } from 'react-dom';
 import moment from 'moment';
@@ -10,6 +10,8 @@ import { ExportOutlined, PlusOutlined } from '@ant-design/icons';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AiTwotoneEdit } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
+import ModalCreateBook from './ModalCreateBook';
+import ModalUpdateBook from './BookModalUpdate';
 
 const BookTable = () => {
     const [listBook, setListBook] = useState([]);
@@ -49,17 +51,18 @@ const BookTable = () => {
     }
 
     const handleDelete = async (_id) => {
-        // let res = await DelteUser(_id);
-        // if (res && res.data) {
-        //     message.success('Delete user success');
-        //     await fetchUser();
-        // }
-        // else {
-        //     notification.error({
-        //         message: "Something error",
-        //         description: "Can't delete this user",
-        //     });
-        // }
+        let res = await DelteBook(_id);
+        if (res && res.data) {
+            message.success('Delete user success');
+            setCurrent(1);
+            await fetchBook();
+        }
+        else {
+            notification.error({
+                message: "Something error",
+                description: "Can't delete this user",
+            });
+        }
     }
 
     const handleOpenModalDetail = (record) => {
@@ -171,12 +174,12 @@ const BookTable = () => {
     };
 
     const handleExport = () => {
-        // if (listUser.length > 0) {
-        //     const worksheet = XLSX.utils.json_to_sheet(listUser);
-        //     const workbook = XLSX.utils.book_new();
-        //     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-        //     XLSX.writeFile(workbook, "ExportUser.csv");
-        // }
+        if (listBook.length > 0) {
+            const worksheet = XLSX.utils.json_to_sheet(listBook);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+            XLSX.writeFile(workbook, "ExportBooks.csv");
+        }
     }
 
     const renderHeader = () => {
@@ -187,10 +190,12 @@ const BookTable = () => {
                     <Button
                         type='primary'
                         onClick={() => handleExport()}
+                        icon={<ExportOutlined />}
                     >Export</Button>
                     <Button
                         type='primary'
                         onClick={() => setOpenModal(true)}
+                        icon={<PlusOutlined />}
                     >Add new</Button>
                     <Button
                         onClick={() => {
@@ -230,17 +235,18 @@ const BookTable = () => {
 
     return (
         <>
-            {/* <ModalUpdateUser
+            <ModalUpdateBook
                 openModalUpdate={openModalUpdate}
                 setOpenModalUpdate={setOpenModalUpdate}
-                fetchUser={fetchUser}
+                fetchBook={fetchBook}
                 dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
             />
-            <ModalCreateUser
+            <ModalCreateBook
                 openModal={openModal}
                 setOpenModal={setOpenModal}
-                fetchUser={fetchUser}
-            /> */}
+                fetchBook={fetchBook}
+            />
             <Row gutter={[20, 20]}>
                 <Col span={24}>
                     <InputSearch

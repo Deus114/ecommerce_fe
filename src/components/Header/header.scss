@@ -1,4 +1,6 @@
 .header-container {
+    background-color: white;
+
     .page-header {
         display: flex;
         user-select: none;
@@ -28,6 +30,7 @@
 
         .page-header__top {
             .page-header__logo {
+                margin-left: 5%;
                 display: flex;
                 width: 100%;
                 align-items: center;

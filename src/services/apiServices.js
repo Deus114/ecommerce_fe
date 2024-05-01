@@ -38,10 +38,44 @@ const fetchListBook = (query) => {
     return axios.get(`book?${query}`);
 }
 
+const callFetchCategory = () => {
+    return axios.get("database/category");
+}
+
+const callUploadBookImg = (fileImg) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append('fileImg', fileImg);
+    return axios({
+        method: 'post',
+        url: 'file/upload',
+        data: bodyFormData,
+        headers: {
+            "Content-Type": "multipart/form-data",
+            "upload-type": "book"
+        },
+    });
+
+}
+
+const createBook = (thumbnail, slider, mainText, author, price, sold, quantity, category) => {
+    return axios.post('book', { thumbnail, slider, mainText, author, price, sold, quantity, category });
+
+}
+
+const updateBook = (id, thumbnail, slider, mainText, author, price, sold, quantity, category) => {
+    return axios.put(`book/${id}`, { thumbnail, slider, mainText, author, price, sold, quantity, category });
+}
+
+const DelteBook = (_id) => {
+    return axios.delete(`book/${_id}`);
+}
+
 export {
     postRegister, postLogin,
     fetchAccount, callLogout,
     fetchListUser, postCreateUser,
     UpdateUser, DelteUser,
-    fetchListBook
+    fetchListBook, callFetchCategory,
+    callUploadBookImg, createBook,
+    updateBook, DelteBook
 }

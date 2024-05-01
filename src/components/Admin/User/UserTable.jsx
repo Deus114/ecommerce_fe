@@ -149,10 +149,12 @@ const UserTable = () => {
                     <Button
                         type='primary'
                         onClick={() => handleExport()}
+                        icon={<ExportOutlined />}
                     >Export</Button>
                     <Button
                         type='primary'
                         onClick={() => setOpenModal(true)}
+                        icon={<PlusOutlined />}
                     >Add new</Button>
                     <Button
                         onClick={() => {

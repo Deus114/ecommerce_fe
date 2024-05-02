@@ -23,6 +23,11 @@ export const accountSlice = createSlice({
             state.isLoading = false;
             state.user = action.payload.user
         },
+        doGetAccountAction: (state, action) => {
+            state.isAuthenticated = true;
+            state.isLoading = false;
+            state.user = action.payload.user;
+        },
         doLogoutAction: (state, action) => {
             localStorage.removeItem('access_token');
             state.isAuthenticated = false;
@@ -42,6 +47,6 @@ export const accountSlice = createSlice({
     },
 });
 
-export const { doLoginAction, doLogoutAction } = accountSlice.actions;
+export const { doLoginAction, doLogoutAction, doGetAccountAction } = accountSlice.actions;
 
 export default accountSlice.reducer;

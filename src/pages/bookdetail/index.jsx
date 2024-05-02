@@ -12,7 +12,7 @@ const BookPage = () => {
 
     useEffect(() => {
         getBookById(id);
-    }, [id]);
+    }, []);
 
     const getBookById = async (id) => {
         let res = await getBookId(id);

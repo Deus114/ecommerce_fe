@@ -10,7 +10,7 @@ const Home = () => {
     const [listCategory, setListCategory] = useState([]);
     const [listBook, setListBook] = useState([]);
     const [current, setCurrent] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+    const [pageSize, setPageSize] = useState(5);
     const [total, setTotal] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [sortQuery, setSortQuery] = useState("&sort=-sold");
@@ -60,8 +60,7 @@ const Home = () => {
                 let query = `&category=${q}`;
                 setqueryString(query);
             } else {
-                setqueryString("")
-                fetchBook();
+                setqueryString("");
             }
         }
     }
@@ -84,10 +83,7 @@ const Home = () => {
     const handleOnchangePage = (pagination) => {
         if (pagination && pagination.current !== current) {
             setCurrent(pagination.current);
-        }
-        if (pagination && pagination.pageSize !== pageSize) {
-            setPageSize(pagination.pageSize);
-            setCurrent(1);
+            console.log(current);
         }
     };
 

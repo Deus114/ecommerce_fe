@@ -1,0 +1,40 @@
+.popover-carts {
+    .pop-cart-body {
+        .pop-cart-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .book {
+                display: flex;
+                gap: 5px;
+
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
+
+                span {
+                    color: red;
+                }
+            }
+
+            .pop-cart-footer {
+                button {
+                    float: right;
+                    padding: 5px;
+                    background-color: blue;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+
+                    &:hover {
+                        cursor: pointer;
+                        opacity: 0.6;
+                    }
+                }
+
+            }
+        }
+    }
+}

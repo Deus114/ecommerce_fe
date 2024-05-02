@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaReact } from 'react-icons/fa'
 import { FiShoppingCart } from 'react-icons/fi';
 import { VscSearchFuzzy } from 'react-icons/vsc';
-import { Divider, Badge, Drawer, message, Avatar } from 'antd';
+import { Divider, Badge, Drawer, message, Avatar, Popover } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Space } from 'antd';
@@ -17,7 +17,8 @@ const Header = () => {
     const isAuthenticated = useSelector(state => state.account.isAuthenticated);
     const user = useSelector(state => state.account.user);
     const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const carts = useSelector(state => state.order.carts);
 
     const handleLogout = async () => {
         const res = await callLogout();
@@ -49,6 +50,33 @@ const Header = () => {
 
     const urlAvatar = `${import.meta.env.VITE_BACKEND_URL_AVATAR}/images/avatar/${user?.avatar}`;
 
+    const popContent = () => {
+        return (
+            <div className='pop-cart-body'>
+                <div className='pop-cart-content'>
+                    {
+                        carts?.map((book, index) => {
+                            return (
+                                <div className='book' key={index}>
+                                    <img src={`${import.meta.env.VITE_BACKEND_URL_AVATAR}/images/book/${book?.detail?.thumbnail}`} />
+                                    <div>{book?.detail?.mainText}</div>
+                                    <div className='price'>
+                                        <span className='currency'>
+                                            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(book?.detail?.price)}
+                                        </span>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                    <div className='pop-cart-footer'>
+                        <button onClick={() => navigate("/order")}>Xem giỏ hàng</button >
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <>
             <div className='header-container'>
@@ -72,12 +100,21 @@ const Header = () => {
                     <nav className="page-header__bottom">
                         <ul id="navigation" className="navigation">
                             <li className="navigation__item">
-                                <Badge
-                                    count={5}
-                                    size={"small"}
+                                <Popover
+                                    className='popover-carts'
+                                    rootClassName='popover-carts'
+                                    placement="topRight"
+                                    title={"Sản phẩm"}
+                                    content={popContent()}
+                                    arrow={true}
                                 >
-                                    <FiShoppingCart className='icon-cart' />
-                                </Badge>
+                                    <Badge
+                                        count={carts?.length ?? 0}
+                                        size={"small"}
+                                    >
+                                        <FiShoppingCart className='icon-cart' />
+                                    </Badge >
+                                </Popover>
                             </li>
                             <li className="navigation__item mobile"><Divider type='vertical' /></li>
                             <li className="navigation__item mobile">
